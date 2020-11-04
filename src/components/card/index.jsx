@@ -8,7 +8,7 @@ import axios from '../../services/axios'
 import EditModalContent from '../modalContentEdit'
 
 
-const Card = ({data}) => {
+const Card = ({data, customRefresh}) => {
 
   const[visibleMenu, setVisibleMenu]=useState(false)
   const[visibleModal, setVisibleModal]=useState(false)
@@ -17,18 +17,17 @@ const Card = ({data}) => {
    
 
   const onDeleteApi = async ()=>{
-    try{
-      
-      console.log(data.id)
-      await axios.delete(`/products/${data.id}`)  
-      setVisibleMenu(!visibleMenu)   
+    try{      
+    
+    await axios.delete(`/products/${data.id}`)  
+    setVisibleMenu(!visibleMenu)   
+    customRefresh()
     }catch(err){
         console.log(err)
     }
   }
 
-  const onPressEdit = ({index})=>{
-    console.log(index)
+  const onPressEdit = ({index})=>{ 
     setVisibleModal(true)
     setVisibleMenu(!visibleMenu)
   }
@@ -52,6 +51,8 @@ const Card = ({data}) => {
     color="black" />
   )
 
+ 
+
   return(
     <View style={styles.container}>
        <Image source={{uri:data && data.images[0].url}} style={styles.image}/>
@@ -66,7 +67,7 @@ const Card = ({data}) => {
             anchor={Icon}
             onBackdropPress={() => setVisibleMenu(false)}>  
           <MenuItem title="Editar" onPress={onPressEdit}/>
-          <MenuItem title="Excluir" onPress={()=> onPressDelete(data.id)}/>          
+          <MenuItem title="Excluir" onPress={()=> onPressDelete()}/>          
          </OverflowMenu>
         </View>
        <View style={styles.containerContent}>
@@ -103,11 +104,14 @@ const Card = ({data}) => {
        </View>
      </View>
      <Modal
-        visible={visibleModal}        
+        visible={visibleModal}
         backdropStyle={styles.backdrop}
         onBackdropPress={() => setVisibleModal(false)}>
         <View style={styles.modalContainer} disabled={true}>
-         <EditModalContent data={data} />
+         <EditModalContent 
+          onTouchCancel={()=>setVisibleModal(false)}      
+          data={data} 
+          customRefresh={()=>customRefresh()}/>
         </View>
       </Modal>      
     </View>

@@ -15,13 +15,12 @@ const Home = () => {
     setRefreshing(false);
     setData(response.data)
     }catch(err){
-      console.log(err)
+     
     }     
    }
 
   const onRefresh = () => {
-    loadApi();
-    
+    loadApi();    
   };
   useEffect(() => {     
      loadApi()
@@ -35,10 +34,14 @@ const Home = () => {
          refreshControl={
           <RefreshControl
             refreshing={refreshing}
-            onRefresh={onRefresh}/>
+            onRefresh={onRefresh}            
+            />
          }
          keyExtractor={item => String(item.id)}
-         renderItem={({item})=><Card data={item}/>}/>
+         renderItem={({item})=>
+            <Card 
+              data={item} 
+              customRefresh={()=>onRefresh()}/> }/>
     </View>
     );
 }

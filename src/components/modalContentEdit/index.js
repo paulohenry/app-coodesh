@@ -4,7 +4,7 @@ import {Button, Spinner} from '@ui-kitten/components'
 import styles from './styles';
 import axios from '../../services/axios'
 
-const ModalEdit = ({data}) => {
+const ModalEdit = ({data, customRefresh, onTouchCancel}) => {
 
   const[loading, setLoading]=useState(false)
   const[title, setTitle]=useState('')
@@ -13,7 +13,7 @@ const ModalEdit = ({data}) => {
 
   const loadApi = async ()=>{
     setLoading(true)
-    console.log(data.id)
+   
     try{
       await axios.put(`/products/${data.id}`,
       {
@@ -21,10 +21,13 @@ const ModalEdit = ({data}) => {
         type:type,
         price:parseInt(price)
       })      
+      
     }catch(err){
-      console.log(err)
+      
     }
     setLoading(false)
+    onTouchCancel()
+    customRefresh()
   }
 
   useEffect(()=>{
