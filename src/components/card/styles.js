@@ -1,0 +1,83 @@
+import { StyleSheet} from 'react-native'
+
+const styles = StyleSheet.create({ 
+  container:{
+    marginBottom:10,
+    padding:10,    
+    alignSelf: 'center',
+    flex:1,
+    height:'30%',
+    width:'90%',
+    borderWidth:1,
+    backgroundColor:'#FFF',
+    flexDirection:'row',
+    borderRadius:6,
+    borderColor:'#C9C9C9'
+  },
+  containerLine:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    minWidth:'100%', 
+  },
+  stars:{
+    flex:1,
+    padding:0,
+    borderWidth:1,
+    borderColor:'red',
+    width:20,
+    height:20
+  },
+  price:{
+    fontWeight:'bold',
+    fontSize:13
+  },
+  containerStars:{
+    flexDirection:'row',
+  },
+  containerLine2:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    width:'100%',    
+  },
+  containerContent:{
+    flex:1,
+    
+  },
+  containerDatas:{
+    flex:1,
+    overflow:'hidden',
+    paddingLeft:5,
+    paddingRight:5
+  },
+  title:{
+    fontWeight:'bold',
+    fontSize:16,
+    flexWrap:'wrap'
+  },
+  backdrop:{
+    backgroundColor:'rgba(0,0,0,0.4)',
+  }, 
+  description:{
+    marginBottom:30,
+    fontWeight:'bold',
+  }, 
+  type:{
+    fontWeight:'bold',
+    paddingTop:30
+  },
+  image:{
+    width:150,
+    height:150,
+    borderRadius:6
+  },
+  modalContainer:{
+    flex:1,
+    backgroundColor:'#FFF',
+    width:300,
+    height:300,
+    padding:10,
+    borderRadius:6
+  }
+})
+
+export default styles;

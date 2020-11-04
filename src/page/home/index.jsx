@@ -1,27 +1,43 @@
 import React,{useEffect, useState} from 'react';
-import { View, FlatList, Text, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, RefreshControl } from 'react-native';
 import axios from '../../services/axios'
 import Card from '../../components/card'
 
 
 const Home = () => {
 
-  const[data, setData]=useState()
+  const[data, setData]=useState([])
+  const [refreshing, setRefreshing] = useState(true);
 
-  useEffect(() => {
-     async function loadApi(){
-      const response = await axios.get('/products')
-      setData(response.data)      
-     }
+  const loadApi = async ()=> {
+    try{
+    const response = await axios.get('/products')
+    setRefreshing(false);
+    setData(response.data)
+    }catch(err){
+      console.log(err)
+    }     
+   }
+
+  const onRefresh = () => {
+    loadApi();
+    
+  };
+  useEffect(() => {     
      loadApi()
   },[])
 
   return (
-    <View style={styles.container}>
-      
+    <View style={styles.container}>      
        <FlatList
          data={data}
-         keyExtractor={item=> String(item.id)}
+         extraData={refreshing}
+         refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}/>
+         }
+         keyExtractor={item => String(item.id)}
          renderItem={({item})=><Card data={item}/>}/>
     </View>
     );
@@ -31,8 +47,7 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     width:'100%',
-    height:'30%',  
-    backgroundColor:'#F5C63D'
+    backgroundColor:'#FFF'
   }
 });
 
